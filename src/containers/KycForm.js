@@ -9,13 +9,13 @@ const Step = Steps.Step;
 
 const steps = [{
   title: 'Personal Information',
-  content: <PersonalInformation/>,
+  // content: <PersonalInformation/>,
 }, {
   title: 'Company Information',
-  content: <CompanyInformation/>,
+  // content: <CompanyInformation/>,
 }, {
   title: 'Review',
-  content: <Review/>,
+  // content: <Review/>,
 }];
 
 class KycForm extends Component {
@@ -23,6 +23,21 @@ class KycForm extends Component {
     super(props);
     this.state = {
       current: 0,
+      formData: {
+        email: "",
+        name: "",
+        dateofbirth:"",
+        address:"",
+        ssn:"",
+        issued_id:"",
+        business_name:"",
+        business_address:"",
+        business_phone_number:"",
+        tax_id_number:"",
+        business_descriptions:"",
+        article_of_incorporation:"",
+        irs_letter:""
+      }
     };
   }
   next() {
@@ -34,16 +49,35 @@ class KycForm extends Component {
     const current = this.state.current - 1;
     this.setState({ current });
   }
+
+  _updateFormField = ( field, newValue ) => {
+    let existingFormData = this.state.formData;
+    existingFormData[field] =newValue;
+    this.setState({
+      formData: existingFormData
+    })
+  }
+
   render() {
     const { current } = this.state;
     return (
       <div>
-        <h1>KYC</h1>
+        <h1 style={{textAlign:'center'}}>KYC</h1>
         <div>
         <Steps current={current}>
           {steps.map(item => <Step key={item.title} title={item.title} />)}
         </Steps>
-        <div style={{marginTop:"50px"}} className="steps-content">{steps[current].content}</div>
+        <div style={{marginTop:"50px"}} className="steps-content">
+          {
+            current == 0 && <PersonalInformation updateField={this._updateFormField} data={this.state.formData}/>
+          }
+          {
+            current == 1 && <CompanyInformation updateField={this._updateFormField} data={this.state.formData}/>
+          }
+          {
+            current == 2 && <Review data={this.state.formData}/>
+          }
+        </div>
         <div className="steps-action">
           {
             current < steps.length - 1

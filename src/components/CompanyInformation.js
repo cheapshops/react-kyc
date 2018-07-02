@@ -1,35 +1,15 @@
 import React, { Component } from 'react';
 import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+
 // import { Row, Col } from 'antd';
+
+
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
 
-const residences = [{
-  value: 'zhejiang',
-  label: 'Zhejiang',
-  children: [{
-    value: 'hangzhou',
-    label: 'Hangzhou',
-    children: [{
-      value: 'xihu',
-      label: 'West Lake',
-    }],
-  }],
-}, {
-  value: 'jiangsu',
-  label: 'Jiangsu',
-  children: [{
-    value: 'nanjing',
-    label: 'Nanjing',
-    children: [{
-      value: 'zhonghuamen',
-      label: 'Zhong Hua Men',
-    }],
-  }],
-}];
-
-class CiForm extends Component {
+class CompanyInformation extends Component {
 
   state = {
     confirmDirty: false,
@@ -78,155 +58,99 @@ class CiForm extends Component {
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
 
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-      },
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
-    const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '86',
-    })(
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    );
-
-    const websiteOptions = autoCompleteResult.map(website => (
-      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-    ));
+    console.log('----b')
+    console.log( this.props.data)
 
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <FormItem
-          {...formItemLayout}
-          label="Legal business name"
-        >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
+      <div>
+        <Row className="formRow">
+          <Col offset={6} span={6}>Legal business name</Col>
+          <Col span={6}>
+            <Input
+              placeholder="default size"
+              value={this.props.data.business_name}
+              onChange={(e)=>{
+                this.props.updateField('business_name', e.target.value)
+              }}
+            />
+          </Col>
+        </Row>
+        <Row className="formRow">
+          <Col offset={6} span={6}>Physical business address</Col>
+          <Col span={6}>
+            <Input
+              placeholder="default size"
+              value={this.props.data.business_address}
+              onChange={(e)=>{
+                this.props.updateField('business_address', e.target.value)
+              }}
+            />
+          </Col>
+        </Row>
+        <Row className="formRow">
+          <Col offset={6} span={6}>Business phone number</Col>
+          <Col span={6}>
+            <Input
+              placeholder="default size"
+              value={this.props.data.business_phone_number}
+              onChange={(e)=>{
+                this.props.updateField('business_phone_number', e.target.value)
+              }}
+            />
+          </Col>
+        </Row>
+        <Row className="formRow">
+          <Col offset={6} span={6}>Tax ID number</Col>
+          <Col span={6}>
+            <Input
+              placeholder="default size"
+              value={this.props.data.tax_id_number}
+              onChange={(e)=>{
+                this.props.updateField('tax_id_number', e.target.value)
+              }}
+            />
+          </Col>
+        </Row>
+        <Row className="formRow">
+          <Col offset={6} span={6}>Business descriptions</Col>
+          <Col span={6}>
+            <Input
+              placeholder="default size"
+              value={this.props.data.business_descriptions}
+              onChange={(e)=>{
+                this.props.updateField('business_descriptions', e.target.value)
+              }}
+            />
+          </Col>
+        </Row>
+         <Row className="formRow">
+          <Col offset={6} span={6}>Articles of Incorporation (Document Upload)</Col>
+          <Col span={6}>
+            <Input
+              placeholder="default size"
+              value={this.props.data.article_of_incorporation}
+              onChange={(e)=>{
+                this.props.updateField('article_of_incorporation', e.target.value)
+              }}
+            />
+          </Col>
+        </Row>
+        <Row className="formRow">
+          <Col offset={6} span={6}>IRS Letter showing proof of EIN (Document Upload)</Col>
+          <Col span={6}>
+            <Input
+              placeholder="default size"
+              value={this.props.data.irs_letter}
+              onChange={(e)=>{
+                this.props.updateField('irs_letter', e.target.value)
+              }}
+            />
+          </Col>
+        </Row>
+      </div>
 
-        <FormItem
-          {...formItemLayout}
-          label="Physical business address"
-        >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-
-        <FormItem
-          {...formItemLayout}
-          label="Business phone number"
-        >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-
-        <FormItem
-          {...formItemLayout}
-          label="Tax ID number"
-        >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-
-        <FormItem
-          {...formItemLayout}
-          label="Business descriptions"
-        >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-
-        <FormItem
-          {...formItemLayout}
-          label="Articles of Incorporation (Document Upload))"
-        >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-
-         <FormItem
-          {...formItemLayout}
-          label="IRS Letter showing proof of EIN (Document Upload)"
-        >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-      </Form>
     );
   }
 }
-
-const CompanyInformationForm = Form.create()(CiForm);
-
-export default CompanyInformationForm;
+export default CompanyInformation;

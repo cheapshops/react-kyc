@@ -3,33 +3,11 @@ import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Butto
 
 // import { Row, Col } from 'antd';
 
+
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const AutoCompleteOption = AutoComplete.Option;
-
-const residences = [{
-  value: 'zhejiang',
-  label: 'Zhejiang',
-  children: [{
-    value: 'hangzhou',
-    label: 'Hangzhou',
-    children: [{
-      value: 'xihu',
-      label: 'West Lake',
-    }],
-  }],
-}, {
-  value: 'jiangsu',
-  label: 'Jiangsu',
-  children: [{
-    value: 'nanjing',
-    label: 'Nanjing',
-    children: [{
-      value: 'zhonghuamen',
-      label: 'Zhong Hua Men',
-    }],
-  }],
-}];
 
 class PersonalInformation extends Component {
 
@@ -80,159 +58,87 @@ class PersonalInformation extends Component {
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
 
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-      },
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
-    const prefixSelector = getFieldDecorator('prefix', {
-      initialValue: '86',
-    })(
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    );
-
-    const websiteOptions = autoCompleteResult.map(website => (
-      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-    ));
+    console.log('----b')
+    console.log( this.props.data)
 
     return (
-
-      <Row gutter={16}>
-      <Col className="gutter-row" span={6}>
-
-      </Col>
-      <Col className="gutter-row" span={12}>
-
-
-
-
-
-      <Form onSubmit={this.handleSubmit}>
-        <FormItem
-          {...formItemLayout}
-          label="Primary contact email"
-        >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-
-        <FormItem
-          {...formItemLayout}
-          label="Full legal name"
-        >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-
-        <FormItem
-          {...formItemLayout}
-          label="Date of birth"
-        >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-
-        <FormItem
-          {...formItemLayout}
-          label="Address (US or Canadian)"
-        >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-
-        <FormItem
-          {...formItemLayout}
-          label="Social Security Number (for US) or Social Insurance Number (for Canada)"
-        >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-
-        <FormItem
-          {...formItemLayout}
-          label="State/Federally Issued ID or Driver’s License (Document Upload)"
-        >
-          {getFieldDecorator('email', {
-            rules: [{
-              type: 'email', message: 'The input is not valid E-mail!',
-            }, {
-              required: true, message: 'Please input your E-mail!',
-            }],
-          })(
-            <Input />
-          )}
-        </FormItem>
-
-      </Form>
-
-      </Col>
-      <Col className="gutter-row" span={6}>
-
-      </Col>
-    </Row>
+      <div>
+        <Row className="formRow">
+          <Col offset={6} span={6}>Primary contact email</Col>
+          <Col span={6}>
+            <Input
+              placeholder="default size"
+              value={this.props.data.email}
+              onChange={(e)=>{
+                this.props.updateField('email', e.target.value)
+              }}
+            />
+          </Col>
+        </Row>
+        <Row className="formRow">
+          <Col offset={6} span={6}>Full legal name</Col>
+          <Col span={6}>
+            <Input
+              placeholder="default size"
+              value={this.props.data.name}
+              onChange={(e)=>{
+                this.props.updateField('name', e.target.value)
+              }}
+            />
+          </Col>
+        </Row>
+        <Row className="formRow">
+          <Col offset={6} span={6}>Date of birth</Col>
+          <Col span={6}>
+            <Input
+              placeholder="default size"
+              value={this.props.data.dateofbirth}
+              onChange={(e)=>{
+                this.props.updateField('dateofbirth', e.target.value)
+              }}
+            />
+          </Col>
+        </Row>
+        <Row className="formRow">
+          <Col offset={6} span={6}>Address (US or Canadian)</Col>
+          <Col span={6}>
+            <Input
+              placeholder="default size"
+              value={this.props.data.address}
+              onChange={(e)=>{
+                this.props.updateField('address', e.target.value)
+              }}
+            />
+          </Col>
+          </Row>
+        <Row className="formRow">
+          <Col offset={6} span={6}>Social Security Number (for US) or Social Insurance Number (for Canada)</Col>
+          <Col span={6}>
+            <Input
+              placeholder="default size"
+              value={this.props.data.ssn}
+              onChange={(e)=>{
+                this.props.updateField('ssn', e.target.value)
+              }}
+            />
+          </Col>
+        </Row>
+        <Row className="formRow">
+          <Col offset={6} span={6}>State/Federally Issued ID or Driver’s License (Document Upload)</Col>
+          <Col span={6}>
+            <Input
+              placeholder="default size"
+              value={this.props.data.issued_id}
+              onChange={(e)=>{
+                this.props.updateField('issued_id', e.target.value)
+              }}
+            />
+          </Col>
+        </Row>
+      </div>
 
     );
   }
 }
-
-const WrappedRegistrationForm = Form.create()(PersonalInformation);
-
-export default WrappedRegistrationForm;
+export default PersonalInformation;
