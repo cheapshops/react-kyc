@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete } from 'antd';
+import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Upload } from 'antd';
 
 // import { Row, Col } from 'antd';
 
@@ -58,9 +58,15 @@ class CompanyInformation extends Component {
   }
 
   render() {
-
-    console.log('----b')
-    console.log( this.props.data)
+    const props2 = {
+      // action: '//jsonplaceholder.typicode.com/posts/',
+      listType: 'picture',
+      className: 'upload-list-inline',
+      beforeUpload: (file) => {
+        this.props.updateField('issued_id', file)
+        return false;
+      },
+    };
 
     return (
       <div>
@@ -68,7 +74,6 @@ class CompanyInformation extends Component {
           <Col offset={6} span={6}>Legal business name</Col>
           <Col span={6}>
             <Input
-              placeholder="default size"
               value={this.props.data.business_name}
               onChange={(e)=>{
                 this.props.updateField('business_name', e.target.value)
@@ -80,7 +85,6 @@ class CompanyInformation extends Component {
           <Col offset={6} span={6}>Physical business address</Col>
           <Col span={6}>
             <Input
-              placeholder="default size"
               value={this.props.data.business_address}
               onChange={(e)=>{
                 this.props.updateField('business_address', e.target.value)
@@ -92,11 +96,11 @@ class CompanyInformation extends Component {
           <Col offset={6} span={6}>Business phone number</Col>
           <Col span={6}>
             <Input
-              placeholder="default size"
               value={this.props.data.business_phone_number}
               onChange={(e)=>{
                 this.props.updateField('business_phone_number', e.target.value)
               }}
+              style={{ borderColor: this.props.invalidFieldsList.indexOf('business_phone_number') != -1 ? 'red' :""}}
             />
           </Col>
         </Row>
@@ -104,7 +108,6 @@ class CompanyInformation extends Component {
           <Col offset={6} span={6}>Tax ID number</Col>
           <Col span={6}>
             <Input
-              placeholder="default size"
               value={this.props.data.tax_id_number}
               onChange={(e)=>{
                 this.props.updateField('tax_id_number', e.target.value)
@@ -116,7 +119,6 @@ class CompanyInformation extends Component {
           <Col offset={6} span={6}>Business descriptions</Col>
           <Col span={6}>
             <Input
-              placeholder="default size"
               value={this.props.data.business_descriptions}
               onChange={(e)=>{
                 this.props.updateField('business_descriptions', e.target.value)
@@ -128,7 +130,6 @@ class CompanyInformation extends Component {
           <Col offset={6} span={6}>Articles of Incorporation (Document Upload)</Col>
           <Col span={6}>
             <Input
-              placeholder="default size"
               value={this.props.data.article_of_incorporation}
               onChange={(e)=>{
                 this.props.updateField('article_of_incorporation', e.target.value)
@@ -139,13 +140,13 @@ class CompanyInformation extends Component {
         <Row className="formRow">
           <Col offset={6} span={6}>IRS Letter showing proof of EIN (Document Upload)</Col>
           <Col span={6}>
-            <Input
-              placeholder="default size"
-              value={this.props.data.irs_letter}
-              onChange={(e)=>{
-                this.props.updateField('irs_letter', e.target.value)
-              }}
-            />
+            <div>
+              <Upload {...props2}>
+                <Button>
+                  <Icon type="upload" /> upload
+                </Button>
+              </Upload>
+            </div>
           </Col>
         </Row>
       </div>

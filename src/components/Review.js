@@ -83,9 +83,9 @@ class Review extends Component {
           </Col>
         </Row>
         <Row className="formRow">
-          <Col offset={6} span={6}>Address (US or Canadian)</Col>
+          <Col offset={6} span={6}>Address</Col>
           <Col span={6}>
-            {this.props.data.address}
+            {this.props.data.address_line1}
           </Col>
         </Row>
         <Row className="formRow">
