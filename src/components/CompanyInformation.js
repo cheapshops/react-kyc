@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Upload } from 'antd';
-
-// import { Row, Col } from 'antd';
-
-
-
-const FormItem = Form.Item;
-const Option = Select.Option;
-const AutoCompleteOption = AutoComplete.Option;
+import  {Input, Row, Col } from 'antd';
 
 class CompanyInformation extends Component {
 
@@ -57,17 +49,15 @@ class CompanyInformation extends Component {
     this.setState({ autoCompleteResult });
   }
 
-  render() {
-    const props2 = {
-      // action: '//jsonplaceholder.typicode.com/posts/',
-      listType: 'picture',
-      className: 'upload-list-inline',
-      beforeUpload: (file) => {
-        this.props.updateField('issued_id', file)
-        return false;
-      },
-    };
+  getBase64 = (img, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+  }
 
+
+
+  render() {
     return (
       <div>
         <Row className="formRow">
@@ -100,7 +90,7 @@ class CompanyInformation extends Component {
               onChange={(e)=>{
                 this.props.updateField('business_phone_number', e.target.value)
               }}
-              style={{ borderColor: this.props.invalidFieldsList.indexOf('business_phone_number') != -1 ? 'red' :""}}
+              style={{ borderColor: this.props.invalidFieldsList.indexOf('business_phone_number') !== -1 ? 'red' :""}}
             />
           </Col>
         </Row>
@@ -129,23 +119,36 @@ class CompanyInformation extends Component {
          <Row className="formRow">
           <Col offset={6} span={6}>Articles of Incorporation (Document Upload)</Col>
           <Col span={6}>
-            <Input
-              value={this.props.data.article_of_incorporation}
-              onChange={(e)=>{
-                this.props.updateField('article_of_incorporation', e.target.value)
-              }}
-            />
+            <div>
+              <input
+                type="file"
+                onChange={(e) => {
+                  let T = this
+                  let dataFile = e.target.files[0]
+                  this.getBase64(e.target.files[0], (imageUrl) => {
+                    dataFile.base64 = imageUrl
+                    T.props.updateField('doc_article_of_incorporation', dataFile)
+                  })
+                }}
+              />
+            </div>
           </Col>
         </Row>
         <Row className="formRow">
           <Col offset={6} span={6}>IRS Letter showing proof of EIN (Document Upload)</Col>
           <Col span={6}>
             <div>
-              <Upload {...props2}>
-                <Button>
-                  <Icon type="upload" /> upload
-                </Button>
-              </Upload>
+              <input
+                type="file"
+                onChange={(e) => {
+                  let T = this
+                  let dataFile = e.target.files[0]
+                  this.getBase64(e.target.files[0], (imageUrl) => {
+                    dataFile.base64 = imageUrl
+                    T.props.updateField('doc_irs_letter', dataFile)
+                  })
+                }}
+              />
             </div>
           </Col>
         </Row>

@@ -33,14 +33,14 @@ class KycForm extends Component {
         address_zip:"",
         address_country:"",
         ssn:"",
-        issued_id:"",
+        pic_issued_id:"",
         business_name:"",
         business_address:"",
         business_phone_number:"",
         tax_id_number:"",
         business_descriptions:"",
-        article_of_incorporation:"",
-        irs_letter:""
+        doc_article_of_incorporation:"",
+        doc_irs_letter:""
       },
       invalidFieldsList: []
     };
@@ -62,22 +62,22 @@ class KycForm extends Component {
 
   _validateFieldValue = ( field, value ) => {
     let isValid = null;
-    if( field == 'email' ){
+    if( field === 'email' ){
       isValid = this.isValidEmail( value )
     }
-    if( field == 'name' ){
+    if( field === 'name' ){
       let Regex= /^[a-zA-Z ]*$/;
       isValid = Regex.test(value)
     }
-    if( field == 'dateofbirth' ){
+    if( field === 'dateofbirth' ){
       let reGoodDate = /^(?:(0[1-9]|1[012])[\-.](0[1-9]|[12][0-9]|3[01])[\-.](19|20)[0-9]{2})$/;
       return reGoodDate.test(value);
     }
-    if( field == 'ssn' ){
+    if( field === 'ssn' ){
       let ssnPattern = /^[0-9]{3}\-?[0-9]{2}\-?[0-9]{4}$/;
       return ssnPattern.test(value);
     }
-    if( field == 'business_phone_number' ){
+    if( field === 'business_phone_number' ){
       let ssnPattern = /^[0-9]{1}\-?[0-9]{3}\-?[0-9]{3}\-?[0-9]{4}$/;
       return ssnPattern.test(value);
     }
@@ -90,12 +90,12 @@ class KycForm extends Component {
     existingFormData[field] = newValue;
 
     let validate = this._validateFieldValue( field, newValue )
-    if( validate == false ){
-      if( invalidFieldsList.indexOf(field) == -1 ){
+    if( validate === false ){
+      if( invalidFieldsList.indexOf(field) === -1 ){
         invalidFieldsList.push(field)
       }
-    } else if( validate == true ){
-      if( invalidFieldsList.indexOf(field) != -1 ){
+    } else if( validate === true ){
+      if( invalidFieldsList.indexOf(field) !== -1 ){
         let index = invalidFieldsList.indexOf(field);
         if (index > -1) {
           invalidFieldsList.splice(index, 1);
@@ -105,7 +105,6 @@ class KycForm extends Component {
 
     }
 
-
     this.setState({
       formData: existingFormData,
       invalidFieldsList: invalidFieldsList
@@ -113,7 +112,6 @@ class KycForm extends Component {
   }
 
   render() {
-    console.log( this.state )
     const { current, invalidFieldsList } = this.state;
     return (
       <div>
@@ -124,13 +122,13 @@ class KycForm extends Component {
         </Steps>
         <div style={{marginTop:"50px"}} className="steps-content">
           {
-            current == 0 && <PersonalInformation updateField={this._updateFormField} data={this.state.formData} invalidFieldsList={invalidFieldsList}/>
+            current === 0 && <PersonalInformation updateField={this._updateFormField} data={this.state.formData} invalidFieldsList={invalidFieldsList}/>
           }
           {
-            current == 1 && <CompanyInformation updateField={this._updateFormField} data={this.state.formData} invalidFieldsList={invalidFieldsList}/>
+            current === 1 && <CompanyInformation updateField={this._updateFormField} data={this.state.formData} invalidFieldsList={invalidFieldsList}/>
           }
           {
-            current == 2 && <Review data={this.state.formData} invalidFieldsList={invalidFieldsList}/>
+            current === 2 && <Review data={this.state.formData} invalidFieldsList={invalidFieldsList}/>
           }
         </div>
         <div className="steps-action">
