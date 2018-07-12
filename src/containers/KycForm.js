@@ -111,8 +111,42 @@ class KycForm extends Component {
     })
   }
 
+  getBase64 = (img, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+  }
+
+  submitForm(){
+    fetch('http://localhost', {
+      method: 'post',
+      // headers: {
+      //   'Accept': 'application/json',
+      //   'Content-Type': 'application/json',
+      // },
+      body: JSON.stringify(this.state.formData)
+    }).then(function(response) {
+      console.log('---res')
+      console.log(response)
+      // return response.json();
+    }).then(function(data) {
+      // ChromeSamples.log('Created Gist:', data.html_url);
+      console.log('---data')
+      console.log(data)
+    });
+  }
+
   render() {
-    const { current, invalidFieldsList } = this.state;
+    const { current, invalidFieldsList, formData } = this.state;
+
+    let disableFinishButton = false;
+
+    for (var p in formData) {
+      if( formData[p] === ""){
+        disableFinishButton = true;
+      }
+    }
+
     return (
       <div>
         <h1 style={{textAlign:'center'}}>KYC</h1>
@@ -122,10 +156,10 @@ class KycForm extends Component {
         </Steps>
         <div style={{marginTop:"50px"}} className="steps-content">
           {
-            current === 0 && <PersonalInformation updateField={this._updateFormField} data={this.state.formData} invalidFieldsList={invalidFieldsList}/>
+            current === 0 && <PersonalInformation getBase64={this.getBase64} updateField={this._updateFormField} data={this.state.formData} invalidFieldsList={invalidFieldsList}/>
           }
           {
-            current === 1 && <CompanyInformation updateField={this._updateFormField} data={this.state.formData} invalidFieldsList={invalidFieldsList}/>
+            current === 1 && <CompanyInformation getBase64={this.getBase64} updateField={this._updateFormField} data={this.state.formData} invalidFieldsList={invalidFieldsList}/>
           }
           {
             current === 2 && <Review data={this.state.formData} invalidFieldsList={invalidFieldsList}/>
@@ -138,7 +172,7 @@ class KycForm extends Component {
           }
           {
             current === steps.length - 1
-            && <Button type="primary" onClick={() => message.success('Processing complete!')}>Done</Button>
+            && <Button disabled={disableFinishButton} type="primary" onClick={() => this.submitForm()}>Done</Button>
           }
           {
             current > 0

@@ -3,60 +3,6 @@ import  {Input, Row, Col } from 'antd';
 
 class CompanyInformation extends Component {
 
-  state = {
-    confirmDirty: false,
-    autoCompleteResult: [],
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
-  }
-
-  handleConfirmBlur = (e) => {
-    const value = e.target.value;
-    this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-  }
-
-  compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!');
-    } else {
-      callback();
-    }
-  }
-
-  validateToNextPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true });
-    }
-    callback();
-  }
-
-  handleWebsiteChange = (value) => {
-    let autoCompleteResult;
-    if (!value) {
-      autoCompleteResult = [];
-    } else {
-      autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-    }
-    this.setState({ autoCompleteResult });
-  }
-
-  getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-  }
-
-
-
   render() {
     return (
       <div>
@@ -125,7 +71,7 @@ class CompanyInformation extends Component {
                 onChange={(e) => {
                   let T = this
                   let dataFile = e.target.files[0]
-                  this.getBase64(e.target.files[0], (imageUrl) => {
+                  this.props.getBase64(e.target.files[0], (imageUrl) => {
                     dataFile.base64 = imageUrl
                     T.props.updateField('doc_article_of_incorporation', dataFile)
                   })
@@ -143,7 +89,7 @@ class CompanyInformation extends Component {
                 onChange={(e) => {
                   let T = this
                   let dataFile = e.target.files[0]
-                  this.getBase64(e.target.files[0], (imageUrl) => {
+                  this.props.getBase64(e.target.files[0], (imageUrl) => {
                     dataFile.base64 = imageUrl
                     T.props.updateField('doc_irs_letter', dataFile)
                   })
